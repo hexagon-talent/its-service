@@ -1,2 +1,4 @@
 
 .idea/
+
+service/src/main/resources/application.yml
