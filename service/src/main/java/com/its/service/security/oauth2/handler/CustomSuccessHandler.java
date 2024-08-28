@@ -19,22 +19,22 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenService tokenService;
     private final CookieService cookieService;
 
+//    private String authRedirectUrl = "http://localhost:8080";
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User customOauth2User = (CustomOAuth2User) authentication.getPrincipal();
         String email = customOauth2User.getEmail();
         String role = customOauth2User.getRole().toString();
-        Boolean isAllowance = customOauth2User.getAllowance();
 
-        if (!isAllowance) {
-            return;
-        }
+
+        // jwt 생성
         String accessToken = tokenService.createAccessToken(email, role);
         String refreshToken = tokenService.createRefreshToken(email);
 
         // 쿠키에 jwt 추가
         response.addCookie(cookieService.createAccessTokenCookie(accessToken));
         response.addCookie(cookieService.createRefreshTokenCookie(refreshToken));
-        response.sendRedirect("http://localhost:8080/");
+        response.sendRedirect("http://localhost:8080/swagger-ui/index.html#");
     }
 }

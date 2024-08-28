@@ -7,6 +7,7 @@ import com.its.service.security.oauth2.handler.CustomSuccessHandler;
 import com.its.service.security.oauth2.service.CustomOAuth2UserService;
 import com.its.service.security.service.TokenService;
 import com.its.service.security.util.JWTUtil;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +51,6 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(
                 Arrays.asList(
-                        "http://localhost:3000",
                         "http://localhost:8080"
                 )
         );
@@ -64,37 +64,36 @@ public class SecurityConfig {
         return source;
     }
 
+
     @Bean
     public SecurityFilterChain oauth2filterChain(HttpSecurity http) throws Exception {
-        http.cors(corsCustomizer -> corsCustomizer.configurationSource(corsConfigurationSource()));
-        http.csrf(AbstractHttpConfigurer::disable);      //csrf disable
-        http.formLogin(AbstractHttpConfigurer::disable); //From 로그인 방식 disable
-        http.httpBasic(AbstractHttpConfigurer::disable); //HTTP Basic 인증 방식 disable
-        //oauth2
-        http.oauth2Login((oauth2) -> oauth2
-                .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                        .userService(customOAuth2UserService))
-                .successHandler(customSuccessHandler));
-
-        //경로별 인가 작업
-        http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated());
-
-        //세션 설정 : STATELESS
-        http.sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.
+            securityMatchers(auth -> auth
+                        .requestMatchers(
+                                "/oauth2/authorization/**",
+                                "/login/oauth2/code/**"
+                        )
+                )
+            .cors(corsCustomizer -> corsCustomizer.configurationSource(corsConfigurationSource()))
+            .csrf(AbstractHttpConfigurer::disable)       //csrf disable
+            .formLogin(AbstractHttpConfigurer::disable)  //From 로그인 방식 disable
+            .httpBasic(AbstractHttpConfigurer::disable)  //HTTP Basic 인증 방식 disable
+            .oauth2Login((oauth2) -> oauth2             //oauth2
+                    .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                            .userService(customOAuth2UserService))
+                    .successHandler(customSuccessHandler))
+            .sessionManagement((session) -> session     //세션 설정 : STATELESS
+                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
+
     @Bean
-    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JWTUtil jwtUtil, TokenService tokenService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
-        http
-                .securityMatchers(auth -> auth
+    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JWTUtil jwtUtil,TokenService tokenService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+            http.securityMatchers(auth -> auth
                         .requestMatchers(
-                                "/api/v1/**"
-                        )
-                )
+                                "/api/**"
+                        ))
                 .cors(corsCustomizer -> corsCustomizer.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -107,28 +106,19 @@ public class SecurityConfig {
                  */
                 .addFilterBefore(new JWTFilter(jwtUtil,tokenService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
-                        // 헬스 체크 경로는 jwt 인증 비활성화
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        // 헬스 체크 경로는 jwt 인증 비활성화
-                        .requestMatchers(
-                                "/api/v1",
-                                "/api/v1/health",
-                                "/api/v1/auth/terms",
-                                "/api/v1/dev/**"
-                        ).permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").permitAll()
                         // 이외 요청 모두 jwt 필터를 타도록 설정
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling
                                 /**
                                  *  인증되지 않은 요청일 경우
-                                 *
                                  *  SecurityContext 에 등록되지 않았을 때 호출된다.
                                  */
                                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                                 /**
                                  * 인증은 되었으나, 해당 요청에 대한 권한이 없는 사용자인 경우
-                                 *
                                  * .hasRole 로 권한을 검사할 때 권한이 부족하여 요청이 거부되었을 때 호출된다.
                                  */
                                 .accessDeniedHandler(customAccessDeniedHandler)

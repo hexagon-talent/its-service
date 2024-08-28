@@ -34,8 +34,8 @@ public class OAuth2Attributes {
     private static OAuth2Attributes ofKakao(Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, String> profile = (Map<String, String>) kakaoAccount.get("profile");
-        return OAuth2Attributes.builder().
-                email(String.valueOf(kakaoAccount.get("email")))
+        return OAuth2Attributes.builder()
+                .email(kakaoAccount.get("email").toString())
                 .name(profile.get("nickname"))
                 .profileImage(profile.get("profile_image_url"))
                 .build();
@@ -53,8 +53,8 @@ public class OAuth2Attributes {
     private static OAuth2Attributes ofGoogle(Map<String, Object> attributes) {
         return OAuth2Attributes.builder()
                 .email(attributes.get("email").toString())
-                .name(attributes.get("nickname").toString())
-                .profileImage(attributes.get("profile_image_url").toString())
+                .name(attributes.get("name").toString())
+                .profileImage(attributes.get("picture").toString())
                 .build();
     }
 

@@ -21,8 +21,7 @@ public class CustomOAuth2User implements OAuth2User {
         return Map.of(
                 "name", oAuth2UserDTO.getName(),
                 "email", oAuth2UserDTO.getEmail(),
-                "profileImage", oAuth2UserDTO.getProfileImage(),
-                "allowance", oAuth2UserDTO.getAllowance()
+                "profileImage", oAuth2UserDTO.getProfileImage()
         );
     }
 
@@ -48,8 +47,5 @@ public class CustomOAuth2User implements OAuth2User {
     }
     public UserRole getRole() {
         return oAuth2UserDTO.getRole();
-    }
-    public Boolean getAllowance() {
-        return oAuth2UserDTO.getAllowance();
     }
 }

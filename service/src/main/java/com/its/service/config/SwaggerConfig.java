@@ -17,7 +17,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.oas.models.security.*;
 import org.springdoc.core.customizers.OpenApiCustomizer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,10 +49,9 @@ public class SwaggerConfig {
                 // 서버 정보 추가
                 .servers(List.of(server))
                 .tags(List.of(new Tag().name(SOCIAL_TAG_NAME).description("Oauth2 Endpoint")))
-                .path("/oauth2/authorization/kakao", oauth2PathItem(SocialType.KAKAO))
                 .path("/oauth2/authorization/naver", oauth2PathItem(SocialType.NAVER))
+                .path("/oauth2/authorization/kakao", oauth2PathItem(SocialType.KAKAO))
                 .path("/oauth2/authorization/google", oauth2PathItem(SocialType.GOOGLE));
-
 
         openApiCustomizer.customise(openApi);
 
@@ -65,22 +63,23 @@ public class SwaggerConfig {
         return new PathItem().get(new Operation()
                 .tags(List.of(SOCIAL_TAG_NAME))
                 .summary(socialTitle)
-                // 인증 비활성화
-                .security(List.of())
+                .security(List.of()) // 인증 비활성화
                 .description(String.format("[%s](%s/oauth2/authorization/%s)", socialTitle, backendBaseURL,socialId))
                 .responses(new ApiResponses()
                         .addApiResponse("302", new ApiResponse()
                                 .content(new Content().addMediaType("application/json",
-                                        new MediaType().schema(new Schema<Map<String, String>>()
-                                                .type("object")
-//                                                .example(Map.of(
-//                                                        "Set-Cookie", "accessToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; Max-Age=3600; Path=/; Domain=yellobook.site; HttpOnly=false; Secure=false, refreshToken=dGhpcy1pcy1hLXRlc3QtcmVmcmVzaC10b2tlbg; Max-Age=3600; Path=/; Domain=yellobook.site; HttpOnly=false; Secure=false"))
-                                                ))))));
+                                        new MediaType().schema(new Schema<Map<String, String>>().type("object")
+                                            .example(Map.of(
+                                            "Set-Cookie", "accessToken=eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6ImFjY2VzcyIsImVtYWlsIjoiaHdhbmdiYmFuZzlAZ21haWwuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjQ4NTE5MDAsImV4cCI6MjMyOTY1MTkwMH0.64R2DbeY04GMIXllq-9iHOES3_QH4-fCVHVYlor1xrc; Max-Age=3600; Path=/; Domain=localhost; HttpOnly=false; Secure=false, refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6InJlZnJlc2giLCJlbWFpbCI6Imh3YW5nYmJhbmc5QGdtYWlsLmNvbSIsImlhdCI6MTcyNDg1MTkwMCwiZXhwIjo5NTAwODUxOTAwfQ.0KCs32480Eiyr5XSsirM0O_nGecYdbcgYzpKG7eRpVc; Max-Age=3600; Path=/; Domain=localhost; HttpOnly=false; Secure=false"))
+                                        ))))
+                        )
+                );
     }
     private Info apiInfo() {
         return new Info()
                 .title("ITS Server API") // API의 제목
                 .description("MVP API 명세서") // API에 대한 설명
-                .version("0.0.1"); // API의 버전
+                .version("0.1.1"); // API의 버전
     }
 }
+

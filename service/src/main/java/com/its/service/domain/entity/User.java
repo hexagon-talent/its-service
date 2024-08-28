@@ -24,26 +24,19 @@ public class User {
 
     private String profileImage;
 
-    @Column(nullable = false)
-    private Boolean allowance;
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER'")
     private UserRole userRole; // 기본값 USER
 
     @Builder
-    public User(Long userId, String email, String name, String profileImage, UserRole userRole, Boolean allowance) {
+    public User(Long userId, String email, String name, String profileImage, UserRole userRole) {
         this.id = userId;
         this.email = email;
         this.name = name;
         this.profileImage = profileImage;
         this.userRole = userRole;
-        this.allowance = allowance;
     }
 
-    public void updateAllowance() {
-        this.allowance = true;
-    }
 
     public enum UserRole {
         USER, ADMIN
