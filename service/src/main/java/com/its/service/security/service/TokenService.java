@@ -23,12 +23,12 @@ public class TokenService {
     @Value("${spring.jwt.refresh.expiration}")
     private Long refreshTokenExpiration;
 
-
     @Value("${spring.jwt.access.category}")
     private String JWT_ACCESS_CATEGORY;
 
     @Value("${spring.jwt.refresh.category}")
     private String JWT_REFRESH_CATEGORY;
+
 
     public String createAccessToken(String email, String role) {
         return jwtUtil.createAccessJwt(JWT_ACCESS_CATEGORY, email, role, accessTokenExpiration * 1000); // 밀리초 -> 초
@@ -37,10 +37,6 @@ public class TokenService {
     public String createRefreshToken(String email) {
         return jwtUtil.createRefreshJwt(JWT_REFRESH_CATEGORY, email, refreshTokenExpiration * 1000); // 밀리초 -> 초
     }
-
-//    public String createAllowanceToken(Long memberId) {
-//        return jwtUtil.createAllowanceJwt(memberId, allowanceTokenExpiresIn, allowanceTokenSecretKey);
-//    }
 
     public User getUserByAccessToken(String accessToken) {
         String email = jwtUtil.getEmail(accessToken);

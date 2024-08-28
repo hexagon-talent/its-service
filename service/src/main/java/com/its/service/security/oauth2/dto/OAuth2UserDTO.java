@@ -11,16 +11,14 @@ public class OAuth2UserDTO {
     private final String name;
     private final String email;
     private final String profileImage;
-    private final Boolean allowance;
     private final UserRole role;
 
     @Builder
-    public OAuth2UserDTO(Long userId, String name, String email, String profileImage, Boolean allowance, UserRole role) {
+    public OAuth2UserDTO(Long userId, String name, String email, String profileImage, UserRole role) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;
-        this.allowance = allowance;
         this.role = role;
     }
 
@@ -30,7 +28,6 @@ public class OAuth2UserDTO {
                 .name(user.getName())
                 .email(user.getEmail())
                 .profileImage(user.getProfileImage())
-                .allowance(user.getAllowance())
                 .role(user.getUserRole())
                 .build();
     }
