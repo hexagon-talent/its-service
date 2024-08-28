@@ -57,6 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 });
 
         log.info("로그인 user : {}", user.getEmail());
+
         OAuth2UserDTO oAuth2UserDTO = OAuth2UserDTO.from(user);
         return new CustomOAuth2User(oAuth2UserDTO);
     }
