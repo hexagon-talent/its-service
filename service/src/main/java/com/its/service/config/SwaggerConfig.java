@@ -2,7 +2,7 @@ package com.its.service.config;
 
 
 
-import com.its.service.security.util.SocialType;
+import com.its.service.domain.auth.security.util.SocialType;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;

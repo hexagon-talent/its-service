@@ -4,3 +4,5 @@
 service/src/main/resources/application.yml
 
 service/src/main/resources/application-oauth.yml
+
+service/src/main/resources/

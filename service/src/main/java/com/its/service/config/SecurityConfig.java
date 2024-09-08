@@ -1,13 +1,13 @@
 package com.its.service.config;
 
-import com.its.service.security.filter.JWTFilter;
-import com.its.service.security.handler.CustomAccessDeniedHandler;
-import com.its.service.security.handler.CustomAuthenticationEntryPoint;
-import com.its.service.security.oauth2.handler.CustomSuccessHandler;
-import com.its.service.security.oauth2.service.CustomOAuth2UserService;
-import com.its.service.security.service.TokenService;
-import com.its.service.security.util.JWTUtil;
 
+import com.its.service.domain.auth.security.filter.JWTFilter;
+import com.its.service.domain.auth.security.handler.CustomAccessDeniedHandler;
+import com.its.service.domain.auth.security.handler.CustomAuthenticationEntryPoint;
+import com.its.service.domain.auth.security.oauth2.handler.CustomSuccessHandler;
+import com.its.service.domain.auth.security.oauth2.service.CustomOAuth2UserService;
+import com.its.service.domain.auth.security.util.JWTUtil;
+import com.its.service.domain.auth.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -89,7 +89,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JWTUtil jwtUtil,TokenService tokenService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JWTUtil jwtUtil, TokenService tokenService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
             http.securityMatchers(auth -> auth
                         .requestMatchers(
                                 "/api/**"
