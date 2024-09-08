@@ -4,13 +4,7 @@ server:
 spring:
   application:
     name: its
-
-  config:
-    activate:
-      on-profile: prod
-  profiles:
-    active: oauth
-
+    
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
