@@ -5,8 +5,11 @@ spring:
   application:
     name: its
 
+  config:
+    activate:
+      on-profile: prod
   profiles:
-    include: oauth  # oauth 설정 포함
+    active: oauth
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
