@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: its
+
+  profiles:
+    include: oauth  # oauth 설정 포함
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: false  # 프로덕션에서는 SQL 출력 비활성화
+    hibernate:
+      ddl-auto: none
+
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI}
+
+  jwt:
+    secret: ${SPRING_JWT_SECRET}
+    header: Authorization
+    access:
+      expiration: 604800000  # 7일
+      category: access
+    refresh:
+      expiration: 7776000000 # 90일
+      category: refresh
+
+cookie:
+  max-age: 3600  # 쿠키 만료 시간 설정
+  domain: its-edu.site  # 도메인 이름 설정
+  access-name: access_token
+  refresh-name: refresh_token
