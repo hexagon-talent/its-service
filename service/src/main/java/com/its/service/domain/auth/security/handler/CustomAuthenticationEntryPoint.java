@@ -1,4 +1,4 @@
-package com.its.service.security.handler;
+package com.its.service.domain.auth.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.its.service.common.error.code.AuthErrorCode;

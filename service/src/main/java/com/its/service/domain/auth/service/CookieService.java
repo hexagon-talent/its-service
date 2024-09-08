@@ -1,4 +1,4 @@
-package com.its.service.security.service;
+package com.its.service.domain.auth.service;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

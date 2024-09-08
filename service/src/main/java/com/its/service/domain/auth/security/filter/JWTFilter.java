@@ -1,11 +1,11 @@
-package com.its.service.security.filter;
+package com.its.service.domain.auth.security.filter;
 
 import com.its.service.common.error.exception.CustomException;
-import com.its.service.domain.entity.User;
-import com.its.service.security.oauth2.dto.OAuth2UserDTO;
-import com.its.service.security.oauth2.dto.oauth2.CustomOAuth2User;
-import com.its.service.security.service.TokenService;
-import com.its.service.security.util.JWTUtil;
+import com.its.service.domain.auth.service.TokenService;
+import com.its.service.domain.user.entity.User;
+import com.its.service.domain.auth.security.oauth2.dto.OAuth2UserDTO;
+import com.its.service.domain.auth.security.oauth2.dto.oauth2.CustomOAuth2User;
+import com.its.service.domain.auth.security.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,7 +46,7 @@ public class JWTFilter extends OncePerRequestFilter {
             if (!jwtUtil.isExpired(accessToken)) {
 
                 User user = tokenService.getUserByAccessToken(accessToken);
-                log.info("[AUTH_INFO] 사용자 인가: ID:{} 이름:{}", user.getId(), user.getName());
+                log.info("[AUTH_INFO] 사용자 인가: ID:{} 이름:{}", user.getUser_id(), user.getName());
                 OAuth2UserDTO oauth2UserDTO = OAuth2UserDTO.from(user);
                 CustomOAuth2User customOAuth2User = new CustomOAuth2User(oauth2UserDTO);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(

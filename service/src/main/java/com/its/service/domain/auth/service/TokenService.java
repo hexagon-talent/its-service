@@ -1,10 +1,11 @@
-package com.its.service.security.service;
+package com.its.service.domain.auth.service;
 
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.common.error.code.AuthErrorCode;
-import com.its.service.domain.entity.User;
-import com.its.service.domain.repository.UserRepository;
-import com.its.service.security.util.JWTUtil;
+import com.its.service.domain.user.entity.User;
+
+import com.its.service.domain.auth.security.util.JWTUtil;
+import com.its.service.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,13 @@ public class TokenService {
 
     public User getUserByAccessToken(String accessToken) {
         String email = jwtUtil.getEmail(accessToken);
+        return userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("[AUTH_ERROR] 유효한 약관 동의 토큰에서 추출된 사용자 email: {}에 해당하는 사용자가 존재하지 않음", email);
+            return new CustomException(AuthErrorCode.USER_NOT_EXIST);
+        });
+    }
+    public User getUserByRefreshToken(String refreshToken) {
+        String email = jwtUtil.getEmail(refreshToken);
         return userRepository.findByEmail(email).orElseThrow(() -> {
             log.error("[AUTH_ERROR] 유효한 약관 동의 토큰에서 추출된 사용자 email: {}에 해당하는 사용자가 존재하지 않음", email);
             return new CustomException(AuthErrorCode.USER_NOT_EXIST);

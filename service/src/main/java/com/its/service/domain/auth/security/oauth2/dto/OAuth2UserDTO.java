@@ -1,7 +1,7 @@
-package com.its.service.security.oauth2.dto;
+package com.its.service.domain.auth.security.oauth2.dto;
 
-import com.its.service.domain.entity.User;
-import com.its.service.domain.entity.User.UserRole;
+import com.its.service.domain.user.entity.User;
+import com.its.service.domain.user.entity.User.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,7 +24,7 @@ public class OAuth2UserDTO {
 
     public static OAuth2UserDTO from(User user) {
         return OAuth2UserDTO.builder()
-                .userId(user.getId())
+                .userId(user.getUser_id())
                 .name(user.getName())
                 .email(user.getEmail())
                 .profileImage(user.getProfileImage())

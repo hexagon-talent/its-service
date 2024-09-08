@@ -1,4 +1,4 @@
-package com.its.service.security.util;
+package com.its.service.domain.auth.security.util;
 
 import lombok.Getter;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

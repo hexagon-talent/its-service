@@ -1,6 +1,6 @@
-package com.its.service.security.oauth2.dto.oauth2;
+package com.its.service.domain.auth.security.oauth2.dto.oauth2;
 
-import com.its.service.security.util.SocialType;
+import com.its.service.domain.auth.security.util.SocialType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

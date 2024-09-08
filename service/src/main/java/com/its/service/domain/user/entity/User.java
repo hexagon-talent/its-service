@@ -1,4 +1,4 @@
-package com.its.service.domain.entity;
+package com.its.service.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -13,8 +13,8 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "user_id")
+    private Long user_id;
 
     @Column(name="email", unique = true)
     private String email; //loginId
@@ -22,6 +22,7 @@ public class User {
     @Column(name="name")
     private String name; // 이름
 
+    @Column(name="profile_image")
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
@@ -30,13 +31,12 @@ public class User {
 
     @Builder
     public User(Long userId, String email, String name, String profileImage, UserRole userRole) {
-        this.id = userId;
+        this.user_id = userId;
         this.email = email;
         this.name = name;
         this.profileImage = profileImage;
         this.userRole = userRole;
     }
-
 
     public enum UserRole {
         USER, ADMIN

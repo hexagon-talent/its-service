@@ -1,7 +1,7 @@
-package com.its.service.security.oauth2.dto.oauth2;
+package com.its.service.domain.auth.security.oauth2.dto.oauth2;
 
-import com.its.service.domain.entity.User.UserRole;
-import com.its.service.security.oauth2.dto.OAuth2UserDTO;
+import com.its.service.domain.user.entity.User.UserRole;
+import com.its.service.domain.auth.security.oauth2.dto.OAuth2UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

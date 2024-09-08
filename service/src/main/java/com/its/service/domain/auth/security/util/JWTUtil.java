@@ -1,4 +1,4 @@
-package com.its.service.security.util;
+package com.its.service.domain.auth.security.util;
 
 
 import com.its.service.common.error.code.AuthErrorCode;

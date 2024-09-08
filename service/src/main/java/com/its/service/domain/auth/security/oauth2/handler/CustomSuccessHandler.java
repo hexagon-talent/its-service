@@ -1,8 +1,8 @@
-package com.its.service.security.oauth2.handler;
+package com.its.service.domain.auth.security.oauth2.handler;
 
-import com.its.service.security.oauth2.dto.oauth2.CustomOAuth2User;
-import com.its.service.security.service.CookieService;
-import com.its.service.security.service.TokenService;
+import com.its.service.domain.auth.service.TokenService;
+import com.its.service.domain.auth.security.oauth2.dto.oauth2.CustomOAuth2User;
+import com.its.service.domain.auth.service.CookieService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
