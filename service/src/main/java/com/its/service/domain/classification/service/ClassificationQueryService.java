@@ -29,5 +29,8 @@ public class ClassificationQueryService {
         List<Minor> minors = minorRepository.findAll();
         return classificationMapper.toMinorResponses(minors);
     }
-
+    public MinorResponses getAllMinorsByMajorId(Long majorId) {
+        List<Minor> minors = minorRepository.findByMajor_MajorId(majorId);
+        return classificationMapper.toMinorResponses(minors);
+    }
 }
