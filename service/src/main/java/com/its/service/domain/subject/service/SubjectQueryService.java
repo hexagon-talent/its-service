@@ -1,0 +1,24 @@
+package com.its.service.domain.subject.service;
+
+import com.its.service.domain.subject.dto.response.SubjectResponses;
+import com.its.service.domain.subject.entity.Subject;
+import com.its.service.domain.subject.mapper.SubjectMapper;
+import com.its.service.domain.subject.repository.SubjectRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class SubjectQueryService {
+    private final SubjectRepository subjectRepository;
+    private final SubjectMapper subjectMapper;
+
+    public SubjectResponses getAllSubjects() {
+        List<Subject> subjects = subjectRepository.findAll();
+        return subjectMapper.toSubjectResponses(subjects);
+    }
+}

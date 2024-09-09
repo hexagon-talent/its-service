@@ -13,13 +13,9 @@ import lombok.Setter;
 public class Major {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "major_id")
     private Long majorId;
 
     @Column(name = "major_name", nullable = false)
     private String majorName;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
-
 }

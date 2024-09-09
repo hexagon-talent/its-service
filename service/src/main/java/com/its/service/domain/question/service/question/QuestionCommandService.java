@@ -2,6 +2,7 @@ package com.its.service.domain.question.service.question;
 
 import com.its.service.common.error.code.MinorErrorCode;
 import com.its.service.common.error.code.QuestionErrorCode;
+import com.its.service.common.error.code.SubjectErrorCode;
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.classification.entity.Minor;
 import com.its.service.domain.classification.repository.MinorRepository;
@@ -10,6 +11,8 @@ import com.its.service.domain.question.dto.response.QuestionResponse;
 import com.its.service.domain.question.entity.Question;
 import com.its.service.domain.question.mapper.QuestionMapper;
 import com.its.service.domain.question.repository.QuestionRepository;
+import com.its.service.domain.subject.entity.Subject;
+import com.its.service.domain.subject.repository.SubjectRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class QuestionCommandService {
     private final QuestionRepository questionRepository;
     private final MinorRepository minorRepository;
+    private final SubjectRepository subjectRepository;
     private final QuestionMapper questionMapper;
 
     /*
@@ -34,7 +38,10 @@ public class QuestionCommandService {
         Minor minor = minorRepository.findById(savedQuestion.getMinorId())
                 .orElseThrow(() -> new CustomException(MinorErrorCode.MINOR_NOT_FOUND));
 
-        return questionMapper.toQuestionResponse(savedQuestion, minor);
+        Subject subject = subjectRepository.findById(question.getSubjectId())
+                .orElseThrow(() -> new CustomException(SubjectErrorCode.SUBJECT_NOT_FOUND));
+
+        return questionMapper.toQuestionResponse(savedQuestion, minor, subject);
     }
 
     /*

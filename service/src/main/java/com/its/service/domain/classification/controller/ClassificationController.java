@@ -4,10 +4,12 @@ import com.its.service.common.response.SuccessResponse;
 import com.its.service.common.response.factory.ResponseFactory;
 import com.its.service.domain.classification.dto.request.CreateMajorRequest;
 import com.its.service.domain.classification.dto.request.CreateMinorRequest;
-import com.its.service.domain.classification.dto.request.CreateSubjectRequest;
+import com.its.service.domain.subject.dto.request.CreateSubjectRequest;
 import com.its.service.domain.classification.dto.response.*;
 import com.its.service.domain.classification.service.ClassificationCommandService;
 import com.its.service.domain.classification.service.ClassificationQueryService;
+import com.its.service.domain.subject.dto.response.SubjectResponse;
+import com.its.service.domain.subject.dto.response.SubjectResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +24,7 @@ public class ClassificationController {
 
     private final ClassificationCommandService classificationCommandService;
     private final ClassificationQueryService classificationQueryService;
-
-    @Operation(summary = "✅ 과목 생성", description = "새로운 과목을 생성하는 API")
-    @PostMapping("/subject")
-    public ResponseEntity<SuccessResponse<SubjectResponse>> createSubject(@RequestBody CreateSubjectRequest request) {
-        var response = classificationCommandService.createSubject(request);
-        return ResponseFactory.created(response);
-    }
+    
 
     @Operation(summary = "✅ 대과목 생성", description = "새로운 대과목을 생성하는 API")
     @PostMapping("/major")
@@ -44,12 +40,6 @@ public class ClassificationController {
         return ResponseFactory.created(response);
     }
 
-    @Operation(summary = "✅ 모든 과목 조회", description = "모든 과목을 조회하는 API")
-    @GetMapping("/subjects")
-    public ResponseEntity<SuccessResponse<SubjectResponses>> getAllSubjects() {
-        var response = classificationQueryService.getAllSubjects();
-        return ResponseFactory.success(response);
-    }
 
     @Operation(summary = "✅ 모든 대과목 조회", description = "모든 대과목을 조회하는 API")
     @GetMapping("/majors")

@@ -21,6 +21,7 @@ public class Question {
     private String content;         // 문제 내용
     private List<String> imageUrl;        // 이미지 URL (문제에 이미지가 있을 경우)
     private Long minorId;           // 소과목 ID (RDBMS의 Minor와 연동)
+    private Long subjectId;           // 과목 ID (RDBMS의 Subject와 연동)
 
     private List<Choice> choices;   // 선택지 리스트
     private Explanation explanation; // 해설

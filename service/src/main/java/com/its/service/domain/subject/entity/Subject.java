@@ -1,9 +1,11 @@
-package com.its.service.domain.classification.entity;
+package com.its.service.domain.subject.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 
 @Getter
@@ -14,6 +16,7 @@ import lombok.Setter;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subject_id")
     private Long subjectId;
 
     @Column(name = "subject_name", nullable = false)
@@ -21,5 +24,5 @@ public class Subject {
 
     @Column(name = "round", nullable = false)
     private Integer round;  // 차시 정보
-
+    
 }

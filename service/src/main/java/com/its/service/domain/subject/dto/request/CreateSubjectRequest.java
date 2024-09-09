@@ -1,4 +1,4 @@
-package com.its.service.domain.classification.dto.request;
+package com.its.service.domain.subject.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
