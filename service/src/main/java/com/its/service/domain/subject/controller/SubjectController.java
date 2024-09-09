@@ -38,6 +38,13 @@ public class SubjectController {
         return ResponseFactory.success(response);
     }
 
+    @Operation(summary = "✅ 올해의 모든 과목(시험일정) 조회", description = "모든 과목을 조회하는 API")
+    @GetMapping("/schedule/year")
+    public ResponseEntity<SuccessResponse<SubjectResponses>> getSubjectsByYear() {
+        var responses = subjectQueryService.getCurrentYearSubject();
+        return ResponseFactory.success(responses);
+    }
+
 }
 
 
