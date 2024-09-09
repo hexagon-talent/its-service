@@ -27,6 +27,10 @@ public record CreateQuestionRequest(
     @NotNull(message = "minorId를 입력해주세요")
     Long minorId,
 
+    @Schema(description = "과목 ID", example = "1")
+    @NotNull(message = "subjectId를 입력해주세요")
+    Long subjectId,
+
     @Schema(description = "선택지 목록")
     @NotNull
     List<CreateChoiceRequest> choices,

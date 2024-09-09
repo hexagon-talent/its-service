@@ -1,4 +1,4 @@
-package com.its.service.domain.classification.dto.response;
+package com.its.service.domain.subject.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

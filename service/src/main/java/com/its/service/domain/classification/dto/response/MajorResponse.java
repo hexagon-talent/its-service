@@ -7,6 +7,5 @@ import lombok.Builder;
 @Builder
 public record MajorResponse(
         @Schema(description = "대과목 ID") Long majorId,
-        @Schema(description = "대과목 이름") String majorName,
-        @Schema(description = "과목 ID") Long subjectId
+        @Schema(description = "대과목 이름") String majorName
 ) {}

@@ -15,6 +15,7 @@ public class Minor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "minor_id")
     private Long minorId;
 
     @Column(name = "minor_name", nullable = false)

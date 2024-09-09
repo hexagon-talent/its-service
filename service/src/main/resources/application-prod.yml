@@ -30,6 +30,14 @@ spring:
       expiration: 7776000000 # 90일
       category: refresh
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    url: ${SPRING_DATASOURCE_URL}
+    user: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
 cookie:
   max-age: 3600  # 쿠키 만료 시간 설정
   domain: its-edu.site  # 도메인 이름 설정
