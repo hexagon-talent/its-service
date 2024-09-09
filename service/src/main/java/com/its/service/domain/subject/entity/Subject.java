@@ -24,5 +24,7 @@ public class Subject {
 
     @Column(name = "round", nullable = false)
     private Integer round;  // 차시 정보
-    
+
+    @Column(name = "exam_date", nullable = false)
+    private LocalDate examDate; // 시험 일정 (날짜만)
 }
