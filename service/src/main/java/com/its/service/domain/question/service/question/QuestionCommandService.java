@@ -33,13 +33,21 @@ public class QuestionCommandService {
     @Transactional
     public QuestionResponse createQuestion(CreateQuestionRequest request) {
         Question question = questionMapper.toEntity(request);
-        Question savedQuestion = questionRepository.save(question);
-
-        Minor minor = minorRepository.findById(savedQuestion.getMinorId())
+        Long minorId = question.getMinorId();
+        Minor minor = minorRepository.findById(minorId)
                 .orElseThrow(() -> new CustomException(MinorErrorCode.MINOR_NOT_FOUND));
 
-        Subject subject = subjectRepository.findById(question.getSubjectId())
+        Long subjectId = question.getSubjectId();
+        Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new CustomException(SubjectErrorCode.SUBJECT_NOT_FOUND));
+
+        String questionNumber = question.getQuestionNumber();
+
+        if (questionRepository.existsQuestionByMinorIdAndSubjectIdAndQuestionNumber(minorId, subjectId, questionNumber)) {
+            throw new CustomException(QuestionErrorCode.QUESTION_ALREADY_EXISTS);
+        }
+
+        Question savedQuestion = questionRepository.save(question);
 
         return questionMapper.toQuestionResponse(savedQuestion, minor, subject);
     }
