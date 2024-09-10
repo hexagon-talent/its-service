@@ -7,7 +7,6 @@ import com.its.service.domain.auth.security.oauth2.dto.oauth2.CustomOAuth2User;
 import com.its.service.domain.question.dto.request.CreateChoiceRequest;
 import com.its.service.domain.question.dto.request.CreateExplanationRequest;
 import com.its.service.domain.question.dto.request.CreateQuestionRequest;
-import com.its.service.domain.question.dto.request.QueryMinorQuestionRequest;
 import com.its.service.domain.question.dto.response.ChoicesResponse;
 import com.its.service.domain.question.dto.response.QuestionResponse;
 import com.its.service.domain.question.dto.response.ExplanationResponse;
@@ -120,12 +119,12 @@ public class QuestionController {
     }
 
     @Operation(summary = "✅ [사용자] 어떤 과목(차시)에 소과목에 속한 문제들 조회", description = "특정 소과목의 모든 문제를 조회하는 API")
-    @GetMapping("/minor")
+    @GetMapping("{subjectId}/{minorId}")
     public ResponseEntity<SuccessResponse<QuestionResponses>> getQuestionsByMinorId(
-            @RequestBody QueryMinorQuestionRequest request) {
+            @PathVariable Long subjectId,
+            @PathVariable Long minorId) {
 
-
-        var response = questionQueryService.getQuestionsByMinorAndSubject(request);
+        var response = questionQueryService.getQuestionsByMinorAndSubject(subjectId,minorId);
         return ResponseFactory.success(response);
     }
 

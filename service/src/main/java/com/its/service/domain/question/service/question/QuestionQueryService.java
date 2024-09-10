@@ -6,7 +6,6 @@ import com.its.service.common.error.code.SubjectErrorCode;
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.classification.entity.Minor;
 import com.its.service.domain.classification.repository.MinorRepository;
-import com.its.service.domain.question.dto.request.QueryMinorQuestionRequest;
 import com.its.service.domain.question.dto.response.QuestionResponse;
 import com.its.service.domain.question.dto.response.QuestionResponses;
 import com.its.service.domain.question.entity.Question;
@@ -49,19 +48,19 @@ public class QuestionQueryService {
     }
 
     /*
-    * 소과목에 속하는 문제들을 조회
-    * */
-    public QuestionResponses getQuestionsByMinorAndSubject(QueryMinorQuestionRequest request) {
+     * 소과목에 속하는 문제들을 조회
+     * */
+    public QuestionResponses getQuestionsByMinorAndSubject(Long subjectId, Long minorId) {
 
-        Long minorId = request.minorId();
-        Minor minor = minorRepository.findById(minorId).orElseThrow(() -> new CustomException(MinorErrorCode.MINOR_NOT_FOUND));
-
-        List<Question> questions = questionRepository.findByMinorId(minorId);
-
-        Subject subject = subjectRepository.findById(request.subjectId())
+        Minor minor = minorRepository.findById(minorId)
+                .orElseThrow(() -> new CustomException(MinorErrorCode.MINOR_NOT_FOUND));
+        Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new CustomException(SubjectErrorCode.SUBJECT_NOT_FOUND));
 
-        return questionMapper.toQuestionResponses(questions, minor ,subject);
+        List<Question> questions = questionRepository.findByMinorIdAndSubjectId(minorId, subjectId);
+
+
+        return questionMapper.toQuestionResponses(questions, minor, subject);
     }
 
 }
