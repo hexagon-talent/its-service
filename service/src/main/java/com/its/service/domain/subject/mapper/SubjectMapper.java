@@ -15,10 +15,14 @@ public interface SubjectMapper {
     @Mapping(target = "subjectId", source = "subject.subjectId")
     @Mapping(target = "subjectName", source = "subject.subjectName")
     @Mapping(target = "round", source = "subject.round")
+    @Mapping(target = "examDate", source = "subject.examDate")
     SubjectResponse toSubjectResponse(Subject subject);
 
     // Subject 생성 시 (DTO -> Entity)
     @Mapping(target = "subjectId", ignore = true)  // subjectId는 자동 생성
+    @Mapping(target = "subjectName", source = "request.subjectName")
+    @Mapping(target = "round", source = "request.round")
+    @Mapping(target = "examDate", source = "request.examDate")
     Subject toSubjectEntity(CreateSubjectRequest request);
 
     default SubjectResponses toSubjectResponses(List<Subject> subjects) {

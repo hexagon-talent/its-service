@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 public class OpenApiCustomConfig {
-    private final List<String> TAG_ORDER =  List.of("로그인", "인증");
+    private final List<String> TAG_ORDER = List.of("로그인", "인증", "사용자", "시험", "분류", "문제");
 
     @Bean
     public OpenApiCustomizer customOpenAPI() {

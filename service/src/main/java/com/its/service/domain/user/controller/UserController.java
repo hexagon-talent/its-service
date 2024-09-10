@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-@Tag(name = "시용자", description = "User API")
+@Tag(name = "사용자", description = "User API")
 public class UserController {
     private final UserQueryService userQueryService;
 
     @GetMapping("/profile")
-    @Operation(summary = "프로필 조회", description = "로그인한 유저의 프로필 조회 API")
+    @Operation(summary = "✅ [사용자]프로필 조회", description = "로그인한 유저의 프로필 조회 API")
     public ResponseEntity<SuccessResponse<ProfileResponse>> getMemberProfile(
             @AuthenticationPrincipal CustomOAuth2User user
     ) {
