@@ -6,6 +6,7 @@ import com.its.service.common.validation.annotation.ExistQuestion;
 import com.its.service.domain.auth.security.oauth2.dto.oauth2.CustomOAuth2User;
 import com.its.service.domain.question.dto.request.CreateChoiceRequest;
 import com.its.service.domain.question.dto.request.CreateExplanationRequest;
+import com.its.service.domain.question.dto.request.CreateQuestionBulkRequest;
 import com.its.service.domain.question.dto.request.CreateQuestionRequest;
 import com.its.service.domain.question.dto.response.ChoicesResponse;
 import com.its.service.domain.question.dto.response.QuestionResponse;
@@ -41,13 +42,24 @@ public class QuestionController {
     private final ExplanationCommandService explanationCommandService;
     private final ExplanationQueryService explanationQueryService;
 
-    @Operation(summary = "✅ [관리자] 문제 등록", description = "새로운 문제를 등록하는 API")
+
+    @Operation(summary = "✅ [관리자] 단일 문제 등록", description = "새로운 한개의 문제를 등록하는 API")
     @PostMapping
-    public ResponseEntity<SuccessResponse<QuestionResponse>> createQuestion(
+    public ResponseEntity<SuccessResponse<QuestionResponse>> createSingleQuestion(
             @Valid @RequestBody CreateQuestionRequest request,
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
-        var response = questionCommandService.createQuestion(request);
+        var response = questionCommandService.createSingleQuestion(request);
         return ResponseFactory.created(response);
+    }
+
+    @Operation(summary = "✅ [관리자] 여러 문제 등록", description = "여러 문제를 일괄 등록하는 API")
+    @PostMapping("/bulk")
+    public ResponseEntity<SuccessResponse<QuestionResponses>> createBulkQuestions(
+            @Valid @RequestBody CreateQuestionBulkRequest request,
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+        var response = questionCommandService.createBulkQuestions(request);
+        return ResponseFactory.created(response);
+
     }
 
     @Operation(summary = "✅ [사용자] 문제 조회", description = "문제를 조회하는 API")

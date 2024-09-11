@@ -22,7 +22,7 @@ public interface QuestionMapper {
     @Mapping(target = "majorName", source = "minor.major.majorName")
     @Mapping(target = "minorId", source = "minor.minorId")
     @Mapping(target = "minorName", source = "minor.minorName")
-    QuestionResponse toQuestionResponse(Question question , Minor minor , Subject subject); ;
+    QuestionResponse toQuestionResponse(Question question , Minor minor , Subject subject);
 
     @Mapping(target = "questionId", ignore = true) // 생성 시 questionId 무시
     Question toEntity(CreateQuestionRequest request);
