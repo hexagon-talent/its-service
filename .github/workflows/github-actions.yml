@@ -40,8 +40,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:${{ github.sha }}
-            ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
             itsedu.azurecr.io/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:${{ github.sha }}  
             itsedu.azurecr.io/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest  
           platforms: linux/amd64 #, linux/arm64/v8
+
+            # ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:${{ github.sha }}
+            # ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
