@@ -6,8 +6,10 @@ import com.its.service.common.error.code.SubjectErrorCode;
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.classification.entity.Minor;
 import com.its.service.domain.classification.repository.MinorRepository;
+import com.its.service.domain.question.dto.request.CreateQuestionBulkRequest;
 import com.its.service.domain.question.dto.request.CreateQuestionRequest;
 import com.its.service.domain.question.dto.response.QuestionResponse;
+import com.its.service.domain.question.dto.response.QuestionResponses;
 import com.its.service.domain.question.entity.Question;
 import com.its.service.domain.question.mapper.QuestionMapper;
 import com.its.service.domain.question.repository.QuestionRepository;
@@ -17,6 +19,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -28,10 +33,10 @@ public class QuestionCommandService {
     private final QuestionMapper questionMapper;
 
     /*
-    * 문제 등록
+    * 단일 문제 등록
     * */
     @Transactional
-    public QuestionResponse createQuestion(CreateQuestionRequest request) {
+    public QuestionResponse createSingleQuestion(CreateQuestionRequest request) {
         Question question = questionMapper.toEntity(request);
         Long minorId = question.getMinorId();
         Minor minor = minorRepository.findById(minorId)
@@ -51,6 +56,22 @@ public class QuestionCommandService {
 
         return questionMapper.toQuestionResponse(savedQuestion, minor, subject);
     }
+    /*
+     * 대량 문제 등록
+     * */
+    @Transactional
+    public QuestionResponses createBulkQuestions(CreateQuestionBulkRequest request) {
+        List<QuestionResponse> questionResponses = new ArrayList<>();
+
+        for (CreateQuestionRequest questionRequest : request.questions()) {
+            QuestionResponse response = createSingleQuestion(questionRequest);
+            questionResponses.add(response);
+        }
+
+        // QuestionResponses로 변환
+        return QuestionResponses.builder().questions(questionResponses).build();
+    }
+
 
     /*
      * 문제 삭제
