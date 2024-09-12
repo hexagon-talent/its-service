@@ -26,7 +26,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: itsedu.azurecr.io  # ACR 로그인 서버
+          username: ${{ secrets.AZURE_ACR_USERNAME }}  # ACR 사용자 이름
+          password: ${{ secrets.AZURE_ACR_PASSWORD }}  # ACR 비밀번호
+          
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -34,5 +41,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:${{ github.sha }}
-            ${{ github.ref == 'refs/heads/main' && format('ghcr.io/{0}/{1}-{2}:latest', env.ORG_NAME, env.PROJECT_NAME, env.SERVICE_NAME) || '' }}
+            ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
+            itsedu.azurecr.io/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:${{ github.sha }}  # ACR 태그
+            itsedu.azurecr.io/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest  # ACR 태그
           platforms: linux/amd64 #, linux/arm64/v8
