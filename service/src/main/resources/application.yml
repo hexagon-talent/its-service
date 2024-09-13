@@ -2,11 +2,20 @@ server:
   port: 8080
 
 spring:
+  logging:
+    level:
+      com:
+        its:
+          service: DEBUG
+
+  config:
+    import: optional:file:.env[.properties]
+
   application:
     name: its
     
   datasource:
-    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db?useSSL=true
+    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db?useSSL=false
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,7 +27,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@its-mongo-db.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000
+      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@its-mongo-db.mongocluster.cosmos.azure.com/?tls=false&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000
 
 
   jwt:
@@ -35,7 +44,7 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
-    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db?useSSL=true
+    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db?useSSL=false
     user: ${DB_USER}
     password: ${DB_PASSWORD}
 
