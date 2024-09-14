@@ -13,21 +13,21 @@ spring:
 
   application:
     name: its
-    
+
+  jpa:
+    show-sql: false  # 프로덕션에서는 SQL 출력 비활성화
+    hibernate:
+      ddl-auto: validate
+
   datasource:
     url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  jpa:
-    show-sql: false  # 프로덕션에서는 SQL 출력 비활성화
-    hibernate:
-      ddl-auto: none
-
   data:
     mongodb:
-      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@its-mongo-db.mongocluster.cosmos.azure.com/?tls=false&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000
+      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.nxpff.mongodb.net/its-mongo-db?retryWrites=true&w=majority
 
 
   jwt:
