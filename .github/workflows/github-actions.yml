@@ -41,25 +41,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-push
     steps:
-      # SSH 클라이언트 설치
-      - name: Install SSH client
-        run: sudo apt-get install -y openssh-client
-
-      # SSH 키를 SSH 에이전트에 추가
-      - name: Add SSH key
-        uses: shimataro/ssh-key-action@v2
+      # SSH로 EC2 서버에 접속하여 Docker 이미지를 업데이트 및 배포하는 과정
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.3
         with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}      
           key: ${{ secrets.EC2_SSH_KEY }}
-          known_hosts: ${{ secrets.EC2_HOST }}
-
-      # EC2 인스턴스에 접속 후 Docker 이미지 풀 및 배포
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.PAT_TOKEN }}
-            docker pull ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
-            cd /home/ubuntu/infra
-            docker-compose down
-            docker-compose up -d --build
-          EOF
-            
+          port: ${{ secrets.PORT }}
+          script: |
+              docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.PAT_TOKEN }}
+              docker pull ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
+              cd /home/ubuntu/infra 
+              sudo docker-compose down
+              sudo docker-compose up -d --build
+              sudo docker image prune -f
