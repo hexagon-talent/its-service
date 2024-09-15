@@ -9,6 +9,9 @@ WORKDIR /home/app
 # 소스 코드와 빌드 파일 복사
 COPY ./service .
 
+# Gradle 빌드 시 Java 17을 사용하도록 설정
+ENV GRADLE_OPTS="-Dorg.gradle.java.home=/usr/lib/jvm/java-17-openjdk"
+
 # Gradle을 사용해 애플리케이션 빌드 (테스트 코드 실행X)
 RUN ./gradlew clean build -x test
 # --------------------------------------------
