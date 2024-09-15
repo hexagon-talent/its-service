@@ -44,7 +44,7 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
-    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db?useSSL=false
+    url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
     user: ${DB_USER}
     password: ${DB_PASSWORD}
 
