@@ -17,7 +17,7 @@ spring:
   jpa:
     show-sql: false  # 프로덕션에서는 SQL 출력 비활성화
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
 
   datasource:
     url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
