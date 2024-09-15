@@ -50,11 +50,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-             whoami
-          
-            # docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.PAT_TOKEN }}
-            # docker pull ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
-            # cd /home/ubuntu/infra  # docker-compose.yml이 위치한 경로
-            # docker-compose down
-            # docker-compose up -d --build
-            # docker image prune -f
+              docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.PAT_TOKEN }}
+              docker pull ghcr.io/${{ env.ORG_NAME }}/${{ env.PROJECT_NAME }}-${{ env.SERVICE_NAME }}:latest
+              cd /home/ubuntu/infra 
+              docker-compose down
+              docker-compose up -d --build
+              docker image prune -f
