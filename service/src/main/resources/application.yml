@@ -21,8 +21,8 @@ spring:
 
   datasource:
     url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    username: ${SPRING_DB_USER}
+    password: ${SPRING_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
@@ -45,8 +45,8 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
     url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
-    user: ${DB_USER}
-    password: ${DB_PASSWORD}
+    user: ${SPRING_DB_USER}
+    password: ${SPRING_DB_PASSWORD}
 
   security:
     oauth2:
