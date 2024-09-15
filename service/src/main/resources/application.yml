@@ -20,14 +20,14 @@ spring:
       ddl-auto: validate
 
   datasource:
-    url: jdbc:mysql://its-mysql-db.mysql.database.azure.com:3306/its-db
+    url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   data:
     mongodb:
-      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.nxpff.mongodb.net/its-mongo-db?retryWrites=true&w=majority
+      uri: mongodb://mongodb:27017/its-mongo
 
 
   jwt:
