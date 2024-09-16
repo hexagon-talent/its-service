@@ -26,7 +26,7 @@ import java.util.Map;
 @Configuration
 public class SwaggerConfig {
 
-    private String backendBaseURL = "http://localhost:8080";
+    private String backendBaseURL = "https://www.its-edu.site";
 
     private final String SOCIAL_TAG_NAME = "소셜 로그인";
 

@@ -51,7 +51,12 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(
                 Arrays.asList(
-                        "http://localhost:8080"
+                        "http://localhost:8080",
+                        "http://its-edu.site",
+                        "http://www.its-edu.site",
+                        "https://its-edu.site",
+                        "https://www.its-edu.site",
+                        "https://api.its-edu.site"
                 )
         );
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
