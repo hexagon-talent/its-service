@@ -20,7 +20,7 @@ spring:
       ddl-auto: none
 
   datasource:
-    url: jdbc:mysql://its-mysql-db.cly46cqkcm2d.ap-southeast-2.rds.amazonaws.com:3306/itsdb
+    url: 'jdbc:mysql://mysql:3306/its-db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8'
     username: ${SPRING_DB_USER}
     password: ${SPRING_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
