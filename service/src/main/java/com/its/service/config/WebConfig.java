@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .exposedHeaders("Set-Cookie")
                 .allowedOrigins(
                         "http://localhost:8080",
-                        "http://localhost:8080/swagger-ui/index.html#"
+                        "https://its-edu.site",
+                        "https://its-edu.site:8080"
                 );
     }
 }
