@@ -17,6 +17,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import io.swagger.v3.oas.models.security.*;
 import org.springdoc.core.customizers.OpenApiCustomizer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +27,9 @@ import java.util.Map;
 @Configuration
 public class SwaggerConfig {
 
-    private String backendBaseURL = "https://www.its-edu.site";
+    @Value("${env.base-url}")
+    private String backendBaseURL;
+
 
     private final String SOCIAL_TAG_NAME = "소셜 로그인";
 

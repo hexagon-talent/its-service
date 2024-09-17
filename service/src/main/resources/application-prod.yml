@@ -93,3 +93,6 @@ cookie:
   domain: ${BASE_DOMAIN}  # 도메인 이름 설정
   access-name: access_token
   refresh-name: refresh_token
+
+env:
+  base-url: "https://its-edu.site"
