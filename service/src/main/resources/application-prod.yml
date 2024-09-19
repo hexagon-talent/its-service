@@ -54,23 +54,23 @@ spring:
         registration:
           google:
             client-name: google
-            client-id: ${ OAUTH_GOOGLE_CLIENT_ID }
-            client-secret: ${ OAUTH_GOOGLE_CLIENT_SECRET }
+            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
             redirect-uri: "https://${BASE_DOMAIN}/login/oauth2/code/google"
             authorization-grant-type: authorization_code
             scope: profile, email
 
           naver:
             client-name: naver
-            client-id:  ${ OAUTH_NAVER_CLIENT_ID }
-            client-secret: ${ OAUTH_NAVER_CLIENT_SECRET }
+            client-id:  ${OAUTH_NAVER_CLIENT_ID}
+            client-secret: ${OAUTH_NAVER_CLIENT_SECRET}
             redirect-uri: "https://${BASE_DOMAIN}/login/oauth2/code/naver"
             authorization-grant-type: authorization_code
             scope: name, profile
 
           kakao:
             client-name: kakao
-            client-id: ${ OAUTH_KAKAO_CLIENT_ID }
+            client-id: ${OAUTH_KAKAO_CLIENT_ID}
             client-secret: ${ OAUTH_KAKAO_CLIENT_SECRET }
             redirect-uri: "https://${BASE_DOMAIN}/login/oauth2/code/kakao"
             authorization-grant-type: authorization_code
