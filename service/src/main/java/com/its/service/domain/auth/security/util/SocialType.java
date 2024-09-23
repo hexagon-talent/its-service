@@ -7,8 +7,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 public enum SocialType {
     KAKAO("kakao", "카카오 로그인"),
     NAVER("naver", "네이버 로그인"),
-    GOOGLE("google", "구글 로그인");
-//    APPLE("apple", "애플 로그인");
+    GOOGLE("google", "구글 로그인"),
+    APPLE("apple", "애플 로그인");
 
 
     private final String registrationId;

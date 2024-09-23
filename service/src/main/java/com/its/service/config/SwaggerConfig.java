@@ -54,7 +54,8 @@ public class SwaggerConfig {
                 .tags(List.of(new Tag().name(SOCIAL_TAG_NAME).description("Oauth2 Endpoint")))
                 .path("/oauth2/authorization/naver", oauth2PathItem(SocialType.NAVER))
                 .path("/oauth2/authorization/kakao", oauth2PathItem(SocialType.KAKAO))
-                .path("/oauth2/authorization/google", oauth2PathItem(SocialType.GOOGLE));
+                .path("/oauth2/authorization/google", oauth2PathItem(SocialType.GOOGLE))
+                .path("/oauth2/authorization/apple", oauth2PathItem(SocialType.APPLE));
 
         openApiCustomizer.customise(openApi);
 
