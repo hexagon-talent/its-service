@@ -4,6 +4,9 @@ package com.its.service.config;
 import com.its.service.domain.auth.security.filter.JWTFilter;
 import com.its.service.domain.auth.security.handler.CustomAccessDeniedHandler;
 import com.its.service.domain.auth.security.handler.CustomAuthenticationEntryPoint;
+import com.its.service.domain.auth.security.oauth2.apple.AppleJwtUtil;
+import com.its.service.domain.auth.security.oauth2.apple.AppleProps;
+import com.its.service.domain.auth.security.oauth2.apple.CustomRequestEntityConverter;
 import com.its.service.domain.auth.security.oauth2.handler.CustomSuccessHandler;
 import com.its.service.domain.auth.security.oauth2.service.CustomOAuth2UserService;
 import com.its.service.domain.auth.security.util.JWTUtil;
@@ -16,6 +19,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -35,6 +41,7 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final AppleJwtUtil jwtUtil;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -55,8 +62,7 @@ public class SecurityConfig {
                         "http://its-edu.site",
                         "http://www.its-edu.site",
                         "https://its-edu.site",
-                        "https://www.its-edu.site",
-                        "https://api.its-edu.site"
+                        "https://www.its-edu.site"
                 )
         );
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
@@ -69,9 +75,19 @@ public class SecurityConfig {
         return source;
     }
 
-
     @Bean
-    public SecurityFilterChain oauth2filterChain(HttpSecurity http) throws Exception {
+    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient(CustomRequestEntityConverter customRequestEntityConverter) {
+        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
+        accessTokenResponseClient.setRequestEntityConverter(customRequestEntityConverter);
+
+        return accessTokenResponseClient;
+    }
+    @Bean
+    public CustomRequestEntityConverter customRequestEntityConverter() {
+        return new CustomRequestEntityConverter(jwtUtil);
+    }
+    @Bean
+    public SecurityFilterChain oauth2filterChain(HttpSecurity http, CustomRequestEntityConverter customRequestEntityConverter) throws Exception {
         http.
             securityMatchers(auth -> auth
                         .requestMatchers(
@@ -84,6 +100,7 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)  //From 로그인 방식 disable
             .httpBasic(AbstractHttpConfigurer::disable)  //HTTP Basic 인증 방식 disable
             .oauth2Login((oauth2) -> oauth2             //oauth2
+                    .tokenEndpoint(tokenEndpointConfig -> tokenEndpointConfig.accessTokenResponseClient(accessTokenResponseClient(customRequestEntityConverter())))
                     .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
                             .userService(customOAuth2UserService))
                     .successHandler(customSuccessHandler))
