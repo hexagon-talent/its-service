@@ -79,7 +79,7 @@ spring:
 
           apple:
             client-name: apple
-            client-id: ${OAUTH_APPLE_SERVICE_ID}
+            client-id: ${APPLE_SERVICE_ID}
             client-secret: classpath:/static/apple/AuthKey_${key_id}.p8
             redirect-uri: "https://${BASE_DOMAIN}/login/oauth2/code/apple"
             authorizationGrantType: authorization_code
@@ -98,7 +98,7 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
           apple:
-            authorizationUri: https://appleid.apple.com/auth/authorize?scope=name%20email&response_mode=form_post
+            authorizationUri: https://appleid.apple.com/auth/authorize
             tokenUri: https://appleid.apple.com/auth/token
             user-info-uri: https://appleid.apple.com/auth/userinfo
             user-name-attribute: email
