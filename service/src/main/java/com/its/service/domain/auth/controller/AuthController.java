@@ -4,7 +4,6 @@ import com.its.service.common.response.SuccessResponse;
 import com.its.service.common.response.factory.ResponseFactory;
 import com.its.service.domain.auth.dto.response.RefreshResponse;
 import com.its.service.domain.auth.service.AuthService;
-import com.its.service.domain.auth.service.CookieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,13 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "인증", description = "Auth API")
 public class AuthController {
     private final AuthService authService;
-    private final CookieService cookieService;
 
-    @Operation(summary = "accessToken 재발급")
-    @PostMapping("/token/reissue")
-    public ResponseEntity<SuccessResponse<RefreshResponse>> reissueToken(HttpServletRequest request) {
-        String refreshToken = cookieService.getRefreshToken(request);
-        var response = authService.reissueToken(refreshToken);
-        return ResponseFactory.success(response);
-    }
+//    @Operation(summary = "accessToken 재발급")
+//    @PostMapping("/token/reissue")
+//    public ResponseEntity<SuccessResponse<RefreshResponse>> reissueToken(HttpServletRequest request) {
+//        String refreshToken = request.refreshToken();
+//        var result = authService.reissueToken(refreshToken);
+//        return ResponseFactory.success(response);
+//    }
 }
