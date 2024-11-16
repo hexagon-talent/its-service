@@ -4,6 +4,7 @@ import com.its.service.common.error.code.AuthErrorCode;
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.auth.dto.response.RefreshResponse;
 import com.its.service.domain.auth.security.util.JWTUtil;
+import com.its.service.domain.auth.security.util.SocialType;
 import com.its.service.domain.user.entity.User;
 
 import com.its.service.domain.user.repository.UserRepository;
@@ -32,8 +33,9 @@ public class AuthService {
         User user = tokenService.getUserByRefreshToken(refreshToken);
         String email = user.getEmail();
         String role = user.getUserRole().toString();
+        SocialType registrationType = user.getRegistrationType();
 
-        String newAccessToken = tokenService.createAccessToken(email, role);
+        String newAccessToken = tokenService.createAccessToken(registrationType, email, role);
         return RefreshResponse.builder().accessToken(newAccessToken).build();
     }
 

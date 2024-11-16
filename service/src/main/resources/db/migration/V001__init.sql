@@ -25,15 +25,13 @@ CREATE TABLE `its-db`.subject
 CREATE TABLE `its-db`.user
 (
     user_id       BIGINT AUTO_INCREMENT                 NOT NULL,
+    registration_type ENUM ('KAKAO', 'NAVER', 'GOOGLE', 'APPLE') NOT NULL,
     email         VARCHAR(255) NULL,
     name          VARCHAR(255) NULL,
     profile_image VARCHAR(255) NULL,
     user_role     ENUM ('USER', 'ADMIN') DEFAULT 'USER' NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (user_id)
 );
-
-ALTER TABLE `its-db`.user
-    ADD CONSTRAINT uc_user_email UNIQUE (email);
 
 ALTER TABLE `its-db`.minor
     ADD CONSTRAINT FK_MINOR_ON_MAJOR FOREIGN KEY (major_id) REFERENCES `its-db`.major (major_id);

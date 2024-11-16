@@ -19,6 +19,7 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private final SecretKey secretKey;
+    private static final String CLAIM_KEY_REGISTRATION_TYPE = "registrationType";
     private static final String CLAIM_KEY_EMAIL = "email";
     private static final String CLAIM_KEY_ROLE = "role";
     private static final String CLAIM_KEY_CATEGORY = "category";
@@ -47,9 +48,11 @@ public class JWTUtil {
     public String getRole(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(CLAIM_KEY_ROLE, String.class);
     }
-
     public String getCategory(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(CLAIM_KEY_CATEGORY, String.class);
+    }
+    public String getRegistrationType(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(CLAIM_KEY_REGISTRATION_TYPE, String.class);
     }
     public String getEmail(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(CLAIM_KEY_EMAIL, String.class);
@@ -58,9 +61,10 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createAccessJwt(String category, String email, String role, Long expiredMs) {
+    public String createAccessJwt(String category, SocialType registrationType, String email, String role, Long expiredMs) {
         return Jwts.builder()
                 .claim(CLAIM_KEY_CATEGORY, category)
+                .claim(CLAIM_KEY_REGISTRATION_TYPE, registrationType)
                 .claim(CLAIM_KEY_EMAIL, email)
                 .claim(CLAIM_KEY_ROLE, role)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -68,9 +72,11 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
     }
-    public String createRefreshJwt(String category, String email, Long expiredMs) {
+
+    public String createRefreshJwt(String category, SocialType registrationType, String email, Long expiredMs) {
         return Jwts.builder()
                 .claim(CLAIM_KEY_CATEGORY, category)
+                .claim(CLAIM_KEY_REGISTRATION_TYPE, registrationType)
                 .claim(CLAIM_KEY_EMAIL, email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))

@@ -18,7 +18,7 @@ public class UserQueryService {
                 () -> new CustomException(UserErrorCode.USER_NOT_FOUND));
 
         return ProfileResponse.builder()
-                .userId(user.getUser_id())
+                .userId(user.getUserId())
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
                 .email(user.getEmail())

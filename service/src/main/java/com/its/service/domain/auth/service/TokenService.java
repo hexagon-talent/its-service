@@ -2,6 +2,7 @@ package com.its.service.domain.auth.service;
 
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.common.error.code.AuthErrorCode;
+import com.its.service.domain.auth.security.util.SocialType;
 import com.its.service.domain.user.entity.User;
 
 import com.its.service.domain.auth.security.util.JWTUtil;
@@ -31,24 +32,26 @@ public class TokenService {
     private String JWT_REFRESH_CATEGORY;
 
 
-    public String createAccessToken(String email, String role) {
-        return jwtUtil.createAccessJwt(JWT_ACCESS_CATEGORY, email, role, accessTokenExpiration * 1000); // 밀리초 -> 초
+    public String createAccessToken(SocialType registrationType, String email, String role) {
+        return jwtUtil.createAccessJwt(JWT_ACCESS_CATEGORY, registrationType, email, role, accessTokenExpiration * 1000); // 밀리초 -> 초
     }
 
-    public String createRefreshToken(String email) {
-        return jwtUtil.createRefreshJwt(JWT_REFRESH_CATEGORY, email, refreshTokenExpiration * 1000); // 밀리초 -> 초
+    public String createRefreshToken(SocialType registrationType, String email) {
+        return jwtUtil.createRefreshJwt(JWT_REFRESH_CATEGORY, registrationType, email, refreshTokenExpiration * 1000); // 밀리초 -> 초
     }
 
     public User getUserByAccessToken(String accessToken) {
         String email = jwtUtil.getEmail(accessToken);
-        return userRepository.findByEmail(email).orElseThrow(() -> {
+        SocialType registrationType = SocialType.from(jwtUtil.getRegistrationType(accessToken));
+        return userRepository.findByEmailAndRegistrationType(email,registrationType).orElseThrow(() -> {
             log.error("[AUTH_ERROR] 유효한 약관 동의 토큰에서 추출된 사용자 email: {}에 해당하는 사용자가 존재하지 않음", email);
             return new CustomException(AuthErrorCode.USER_NOT_EXIST);
         });
     }
     public User getUserByRefreshToken(String refreshToken) {
         String email = jwtUtil.getEmail(refreshToken);
-        return userRepository.findByEmail(email).orElseThrow(() -> {
+        SocialType registrationType = SocialType.from(jwtUtil.getRegistrationType(refreshToken));
+        return userRepository.findByEmailAndRegistrationType(email,registrationType).orElseThrow(() -> {
             log.error("[AUTH_ERROR] 유효한 약관 동의 토큰에서 추출된 사용자 email: {}에 해당하는 사용자가 존재하지 않음", email);
             return new CustomException(AuthErrorCode.USER_NOT_EXIST);
         });

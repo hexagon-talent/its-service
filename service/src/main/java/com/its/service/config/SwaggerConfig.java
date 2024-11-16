@@ -69,15 +69,8 @@ public class SwaggerConfig {
                 .summary(socialTitle)
                 .security(List.of()) // 인증 비활성화
                 .description(String.format("[%s](%s/oauth2/authorization/%s)", socialTitle, backendBaseURL, socialId))
-                .responses(new ApiResponses()
-                        .addApiResponse("302", new ApiResponse()
-                                .content(new Content().addMediaType("application/json",
-                                        new MediaType().schema(new Schema<Map<String, String>>().type("object")
-                                                .example(Map.of(
-                                                        "Set-Cookie", "accessToken=eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6ImFjY2VzcyIsImVtYWlsIjoiaHdhbmdiYmFuZzlAZ21haWwuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MjQ4NTE5MDAsImV4cCI6MjMyOTY1MTkwMH0.64R2DbeY04GMIXllq-9iHOES3_QH4-fCVHVYlor1xrc; Max-Age=3600; Path=/; Domain=localhost; HttpOnly=false; Secure=false, refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6InJlZnJlc2giLCJlbWFpbCI6Imh3YW5nYmJhbmc5QGdtYWlsLmNvbSIsImlhdCI6MTcyNDg1MTkwMCwiZXhwIjo5NTAwODUxOTAwfQ.0KCs32480Eiyr5XSsirM0O_nGecYdbcgYzpKG7eRpVc; Max-Age=3600; Path=/; Domain=localhost; HttpOnly=false; Secure=false"))
-                                        ))))
-                )
         );
+
     }
     private Info apiInfo() {
         return new Info()

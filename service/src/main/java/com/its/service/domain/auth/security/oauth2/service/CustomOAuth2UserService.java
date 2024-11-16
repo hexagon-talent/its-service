@@ -34,14 +34,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // Oauth2 서비스명
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
         // 소셜 로그인 종류
         SocialType socialType = SocialType.from(registrationId);
 
         if (socialType == SocialType.APPLE) return handleAppleLogin(userRequest);
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
+
         // 인증된 사용자 정보
         Map<String, Object> attributes = oAuth2User.getAttributes();
+
         // 소셜 로그인 attributes
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(socialType, attributes);
 
@@ -49,23 +52,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("registrationId : {}", registrationId);
 
 
-        return getCustomOAuth2User(oAuth2Attributes);
+        return getCustomOAuth2User(oAuth2Attributes, socialType);
     }
 
-    private OAuth2User getCustomOAuth2User(OAuth2Attributes oAuth2Attributes) {
-        User user = userRepository.findByEmail(oAuth2Attributes.getEmail())
+    private OAuth2User getCustomOAuth2User(OAuth2Attributes oAuth2Attributes, SocialType socialType) {
+        User user = userRepository.findByEmailAndRegistrationType(oAuth2Attributes.getEmail(), socialType)
                 .orElseGet(() -> {
                     User createdUser = User.builder()
                             .email(oAuth2Attributes.getEmail())
                             .name(oAuth2Attributes.getName())
-                            .userRole(UserRole.USER)
                             .profileImage(oAuth2Attributes.getProfileImage())
+                            .userRole(UserRole.USER)
+                            .registrationType(socialType)
                             .build();
-                    log.info("회원 가입 user : {}", createdUser.getEmail());
+                    log.info("회원 가입 user : [{}] : {}", createdUser.getRegistrationType() ,createdUser.getEmail());
                     return userRepository.save(createdUser);
                 });
 
-        log.info("로그인 user : {}", user.getEmail());
+        log.info("로그인 user : [{}] : {}", user.getRegistrationType() ,user.getEmail());
 
         OAuth2UserDTO oAuth2UserDTO = OAuth2UserDTO.from(user);
         return new CustomOAuth2User(oAuth2UserDTO);
@@ -84,6 +88,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(SocialType.APPLE, jwtClaims);
 
-        return getCustomOAuth2User(oAuth2Attributes);
+        return getCustomOAuth2User(oAuth2Attributes, SocialType.APPLE);
     }
 }
