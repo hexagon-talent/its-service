@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.its.service.common.response.factory.ResponseFactory;
 import com.its.service.domain.auth.dto.response.LoginResponse;
 import com.its.service.domain.auth.mapper.AuthMapper;
+import com.its.service.domain.auth.security.util.SocialType;
 import com.its.service.domain.auth.service.TokenService;
 import com.its.service.domain.auth.security.oauth2.dto.oauth2.CustomOAuth2User;
 import jakarta.servlet.ServletException;
@@ -24,21 +25,20 @@ import java.io.IOException;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final TokenService tokenService;
     private final AuthMapper authMapper;
+    private final ObjectMapper objectMapper;
 
-    @Value("${env.base-url}")
-    private String backendBaseURL;
-    private ObjectMapper objectMapper;
+    @Value("${env.base-url}") private String backendBaseURL;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User customOauth2User = (CustomOAuth2User) authentication.getPrincipal();
         String email = customOauth2User.getEmail();
         String role = customOauth2User.getRole().toString();
-
+        SocialType registrationType = customOauth2User.getRegistrationType();
 
         // jwt 생성
-        String accessToken = tokenService.createAccessToken(email, role);
-        String refreshToken = tokenService.createRefreshToken(email);
+        String accessToken = tokenService.createAccessToken(registrationType, email, role);
+        String refreshToken = tokenService.createRefreshToken(registrationType, email);
 
         LoginResponse loginResponse = authMapper.toLoginResponse(accessToken, refreshToken);
         var result = ResponseFactory.success(loginResponse);

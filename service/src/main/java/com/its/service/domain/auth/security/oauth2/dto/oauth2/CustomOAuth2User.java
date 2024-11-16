@@ -1,5 +1,6 @@
 package com.its.service.domain.auth.security.oauth2.dto.oauth2;
 
+import com.its.service.domain.auth.security.util.SocialType;
 import com.its.service.domain.user.entity.User.UserRole;
 import com.its.service.domain.auth.security.oauth2.dto.OAuth2UserDTO;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,16 +37,9 @@ public class CustomOAuth2User implements OAuth2User {
     public String getName() {
         return oAuth2UserDTO.getName();
     }
-    public String getEmail() {
-        return oAuth2UserDTO.getEmail();
-    }
-    public Long getUserId() {
-        return oAuth2UserDTO.getUserId();
-    }
-    public String getProfileImage() {
-        return oAuth2UserDTO.getProfileImage();
-    }
-    public UserRole getRole() {
-        return oAuth2UserDTO.getRole();
-    }
+    public SocialType getRegistrationType() {return oAuth2UserDTO.getRegistrationType();}
+    public String getEmail() {return oAuth2UserDTO.getEmail();}
+    public Long getUserId() {return oAuth2UserDTO.getUserId();}
+    public String getProfileImage() {return oAuth2UserDTO.getProfileImage();}
+    public UserRole getRole() {return oAuth2UserDTO.getRole();}
 }

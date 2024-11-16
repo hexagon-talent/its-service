@@ -1,23 +1,27 @@
 package com.its.service.domain.user.entity;
 
+import com.its.service.domain.auth.security.util.SocialType;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
-    @Column(name="email", unique = true)
-    private String email; //loginId
+    @Enumerated(EnumType.STRING)
+    @Column(name = "registration_type", columnDefinition = "ENUM('KAKAO', 'NAVER', 'GOOGLE', 'APPLE')", nullable = false)
+    private SocialType registrationType;
+
+    @Column(name="email")
+    private String email;
 
     @Column(name="name")
     private String name; // 이름
@@ -29,14 +33,6 @@ public class User {
     @Column(columnDefinition = "ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER'")
     private UserRole userRole; // 기본값 USER
 
-    @Builder
-    public User(Long userId, String email, String name, String profileImage, UserRole userRole) {
-        this.user_id = userId;
-        this.email = email;
-        this.name = name;
-        this.profileImage = profileImage;
-        this.userRole = userRole;
-    }
 
     public enum UserRole {
         USER, ADMIN

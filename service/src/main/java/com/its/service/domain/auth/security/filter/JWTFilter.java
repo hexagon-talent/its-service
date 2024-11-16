@@ -46,7 +46,7 @@ public class JWTFilter extends OncePerRequestFilter {
             if (!jwtUtil.isExpired(accessToken)) {
 
                 User user = tokenService.getUserByAccessToken(accessToken);
-                log.info("[AUTH_INFO] 사용자 인가: ID:{} 이름:{}", user.getUser_id(), user.getName());
+                log.info("[AUTH_INFO] 사용자 인가: ID:{} 이름:{}", user.getUserId(), user.getName());
                 OAuth2UserDTO oauth2UserDTO = OAuth2UserDTO.from(user);
                 CustomOAuth2User customOAuth2User = new CustomOAuth2User(oauth2UserDTO);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
