@@ -33,8 +33,7 @@ public class CustomRequestEntityConverter implements Converter<OAuth2Authorizati
 
         String registrationId = request.getClientRegistration().getRegistrationId();
         if (!registrationId.equalsIgnoreCase(APPLE_REGISTRATION_ID)) {
-            log.error("[Flow-4.1] registrationId 가 APPLE 이 아닙니다.");
-            throw new CustomException(AppleErrorCode.INVALID_REGISTRATION_ID);
+            return entity;
         }
 
         MultiValueMap<String, String> params = extractParams(entity);
