@@ -57,7 +57,7 @@ public class JWTUtil {
     public String getEmail(String token){
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(CLAIM_KEY_EMAIL, String.class);
     }
-    public Boolean isExpired(String token) {
+    public boolean isExpired(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 

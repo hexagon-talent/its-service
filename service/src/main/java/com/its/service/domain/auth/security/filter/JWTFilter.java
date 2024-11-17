@@ -37,6 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         return excludePaths.stream().anyMatch(requestURI::startsWith);
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -45,21 +46,24 @@ public class JWTFilter extends OncePerRequestFilter {
             String accessToken = jwtUtil.resolveAccessToken(request);
             if (!jwtUtil.isExpired(accessToken)) {
 
-                User user = tokenService.getUserByAccessToken(accessToken);
+                User user = tokenService.getUserFromAccessToken(accessToken);
                 log.info("[AUTH_INFO] 사용자 인가: ID:{} 이름:{}", user.getUserId(), user.getName());
+
                 OAuth2UserDTO oauth2UserDTO = OAuth2UserDTO.from(user);
                 CustomOAuth2User customOAuth2User = new CustomOAuth2User(oauth2UserDTO);
+
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         customOAuth2User,
                         null,
                         customOAuth2User.getAuthorities()
                 );
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (CustomException ex) {
             request.setAttribute("error", ex.getErrorCode());
         } catch (Exception e) {
-            log.error("[AUTH_ERROR] 사용자 인가 과정에서 에러 발생: {}", e.getMessage());
+            log.error("[AUTH_ERROR] 사용자 인가 과정에서 에러 발생: {} | {} | {}", e.getMessage(), e.getCause() , e.getClass());
             request.setAttribute("error", null);
         }
 

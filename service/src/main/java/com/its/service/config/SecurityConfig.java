@@ -129,6 +129,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil,tokenService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/**").permitAll()
                         // 이외 요청 모두 jwt 필터를 타도록 설정
                         .anyRequest().authenticated())

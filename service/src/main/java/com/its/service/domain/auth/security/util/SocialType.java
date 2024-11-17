@@ -21,7 +21,7 @@ public enum SocialType {
 
     public static SocialType from(String registrationId) {
         for (SocialType socialType : SocialType.values()) {
-            if(socialType.getRegistrationId().equals(registrationId)) {
+            if(socialType.toString().equals(registrationId)) {
                 return socialType;
             }
         }

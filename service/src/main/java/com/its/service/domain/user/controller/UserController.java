@@ -23,8 +23,7 @@ public class UserController {
 
     @GetMapping("/profile")
     @Operation(summary = "✅ [사용자]프로필 조회", description = "로그인한 유저의 프로필 조회 API")
-    public ResponseEntity<SuccessResponse<UserInfoResponse>> getMemberProfile(
-            @AuthenticationPrincipal CustomOAuth2User oAuth2User) {
+    public ResponseEntity<SuccessResponse<UserInfoResponse>> getMemberProfile(@AuthenticationPrincipal CustomOAuth2User oAuth2User) {
         UserInfoResponse response = userQueryService.getUserProfile(oAuth2User);
         return ResponseFactory.success(response);
     }
