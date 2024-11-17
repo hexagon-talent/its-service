@@ -22,8 +22,7 @@ public class UserQueryService {
         String email = oAuth2User.getEmail();
         SocialType registrationType = oAuth2User.getRegistrationType();
 
-        User user = userRepository.findByEmailAndRegistrationType(email, registrationType).orElseThrow(
-                () -> new CustomException(UserErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByEmailAndRegistrationType(email, registrationType).orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND));
 
         return userMapper.toInfoResponse(user);
     }

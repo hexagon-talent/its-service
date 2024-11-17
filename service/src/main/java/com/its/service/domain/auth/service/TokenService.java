@@ -40,7 +40,7 @@ public class TokenService {
         return jwtUtil.createRefreshJwt(JWT_REFRESH_CATEGORY, registrationType, email, refreshTokenExpiration * 1000); // 밀리초 -> 초
     }
 
-    public User getUserByAccessToken(String accessToken) {
+    public User getUserFromAccessToken(String accessToken) {
         String email = jwtUtil.getEmail(accessToken);
         SocialType registrationType = SocialType.from(jwtUtil.getRegistrationType(accessToken));
         return userRepository.findByEmailAndRegistrationType(email,registrationType).orElseThrow(() -> {

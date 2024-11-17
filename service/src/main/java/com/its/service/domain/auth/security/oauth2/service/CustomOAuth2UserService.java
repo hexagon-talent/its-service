@@ -49,8 +49,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 소셜 로그인 attributes
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(socialType, attributes);
 
-        log.info("loadUser : {}", oAuth2User);
-        log.info("registrationId : {}", registrationId);
+//        log.info("loadUser : {}", oAuth2User);
+//        log.info("registrationId : {}", registrationId);
 
 
         return getCustomOAuth2User(oAuth2Attributes, socialType);
@@ -73,6 +73,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("로그인 user : [{}] : {}", user.getRegistrationType() ,user.getEmail());
 
         OAuth2UserDTO oAuth2UserDTO = OAuth2UserDTO.from(user);
+//        log.info("저장 완료 {} {} {}" ,oAuth2UserDTO.getUserId(), oAuth2UserDTO.getEmail() , oAuth2UserDTO.getRegistrationType());
+        
+        // SecurityContext 에 저장
         return new CustomOAuth2User(oAuth2UserDTO);
     }
 
