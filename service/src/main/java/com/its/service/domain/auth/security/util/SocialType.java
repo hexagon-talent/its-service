@@ -21,10 +21,11 @@ public enum SocialType {
 
     public static SocialType from(String registrationId) {
         for (SocialType socialType : SocialType.values()) {
-            if(socialType.toString().equals(registrationId)) {
+            if(socialType.getRegistrationId().equals(registrationId.toLowerCase())) {
                 return socialType;
             }
         }
         throw new OAuth2AuthenticationException("OAuth2 제공자가 올바르지 않습니다. registrationId: %s".formatted(registrationId));
     }
+
 }
