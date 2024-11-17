@@ -24,8 +24,11 @@ public enum AuthErrorCode implements ErrorCode{
 
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "AUTH-012", "쿠키에 refreshToken 이 없습니다."),
     ACCESS_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "AUTH-013", "요청 헤더에 accessToken 이 없습니다."),
+
     // 권한 애러
     USER_NOT_EXIST(HttpStatus.UNAUTHORIZED, "AUTH-014", "가입한 사용자가 존재하지 않습니다.");
+
+
 
     private final HttpStatus httpStatus;
     private final String code;

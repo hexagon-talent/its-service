@@ -1,5 +1,6 @@
 package com.its.service.domain.auth.security.oauth2.service;
 
+import com.its.service.common.error.code.AppleErrorCode;
 import com.its.service.common.error.code.AuthErrorCode;
 import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.auth.security.oauth2.apple.AppleJwtUtil;
@@ -77,17 +78,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private OAuth2User handleAppleLogin(OAuth2UserRequest userRequest) {
         // Apple ID 토큰 추출
-        String idToken = userRequest.getAdditionalParameters().get("id_token").toString();
+        Object token = userRequest.getAdditionalParameters().get("id_token");
+        if (token == null) {
+            log.error("[Flow-5.1] Apple 로그인 시 id_token이 제공되지 않았습니다.");
+            throw new CustomException(AppleErrorCode.INVALID_ID_TOKEN);
+        }
 
+        String idToken = token.toString();
         if (idToken == null || idToken.isEmpty()) {
-            throw new CustomException(AuthErrorCode.INVALID_TOKEN_FORMAT);
+            log.error("[Flow-5.1] Apple 로그인 시 제공된 id_token이 비어 있습니다.");
+            throw new CustomException(AppleErrorCode.INVALID_ID_TOKEN);
         }
 
         // JWT 디코딩하여 사용자 정보 추출
         Map<String, Object> jwtClaims = appleJwtUtil.decodeJwtTokenPayload(idToken);
 
         OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(SocialType.APPLE, jwtClaims);
-
+        log.debug("[Flow-5.3] ID 토큰으로 부터 추출한 정보를 바탕으로 Login 절차를 시작합니다.");
         return getCustomOAuth2User(oAuth2Attributes, SocialType.APPLE);
     }
 }

@@ -1,5 +1,7 @@
 package com.its.service.domain.subject.service;
 
+import com.its.service.common.error.code.SubjectErrorCode;
+import com.its.service.common.error.exception.CustomException;
 import com.its.service.domain.subject.dto.response.SubjectResponses;
 import com.its.service.domain.subject.entity.Subject;
 import com.its.service.domain.subject.mapper.SubjectMapper;
@@ -28,4 +30,10 @@ public class SubjectQueryService {
         List<Subject> byExamYear = subjectRepository.findByExamYear(currentYear);
         return subjectMapper.toSubjectResponses(byExamYear);
     }
+
+    public Subject findSubjectById(Long subjectId) {
+        return subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new CustomException(SubjectErrorCode.SUBJECT_NOT_FOUND));
+    }
+
 }
