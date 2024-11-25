@@ -20,7 +20,7 @@ public class FavoriteCommandService {
     private final FavoriteMapper favoriteMapper;
 
     public Void addFavorite(Long userId, String questionId) {
-        userQueryService.getUserById(userId);
+        userQueryService.findUserById(userId);
         questionQueryService.getQuestionById(questionId);
         boolean isValid = favoriteQueryService.existByUserIAndQuestionId(userId, questionId);
         if (isValid) {
@@ -32,7 +32,7 @@ public class FavoriteCommandService {
     }
 
     public Void removeFavorite(Long userId, String questionId) {
-        userQueryService.getUserById(userId);
+        userQueryService.findUserById(userId);
         questionQueryService.getQuestionById(questionId);
         boolean isValid = favoriteQueryService.existByUserIAndQuestionId(userId, questionId);
         if (isValid) {

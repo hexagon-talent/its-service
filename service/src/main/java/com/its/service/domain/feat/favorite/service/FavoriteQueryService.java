@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -23,19 +22,19 @@ public class FavoriteQueryService {
     private final UserQueryService userQueryService;
 
     public FavoriteResponse getLatestFavorite(Long userId) {
-        userQueryService.getUserById(userId);
+        userQueryService.findUserById(userId);
         Favorite favorite = favoriteRepository.findTopByUserIdOrderByCreateAtDesc(userId).orElseThrow(() -> new CustomException(FavoriteErrorCode.FAVORITE_NOT_FOUND));
         return favoriteMapper.toResponse(favorite);
     }
 
     public FavoriteResponse getFavorite(Long userId, String questionId) {
-        userQueryService.getUserById(userId);
+        userQueryService.findUserById(userId);
         Favorite favorite = findFavoriteByUserIAndQuestionId(userId, questionId);
         return favoriteMapper.toResponse(favorite);
     }
 
     public FavoriteResponses getFavorites(Long userId) {
-        userQueryService.getUserById(userId);
+        userQueryService.findUserById(userId);
         List<Favorite> favorites = favoriteRepository.findAllByUserId(userId);
         return favoriteMapper.toResponses(favorites);
     }
