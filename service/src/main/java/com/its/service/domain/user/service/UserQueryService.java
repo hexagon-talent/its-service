@@ -26,4 +26,9 @@ public class UserQueryService {
 
         return userMapper.toInfoResponse(user);
     }
+
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND));
+    }
+
 }
