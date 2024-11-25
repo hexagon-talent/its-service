@@ -70,7 +70,7 @@ public class SwaggerConfig {
         return new Info()
                 .title("ITS Server API") // API의 제목
                 .description("MVP API 명세서") // API에 대한 설명
-                .version("0.1.1"); // API의 버전
+                .version("0.1.2"); // API의 버전
     }
 }
 
