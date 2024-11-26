@@ -8,6 +8,6 @@ import java.util.List;
 @Schema(description = "즐겨찾기 응답 DTO")
 @Builder
 public record FavoriteResponse(
-        @Schema(description = "즐겨찾기 문제") String questionId
+        @Schema(description = "즐겨찾기 문제 식별자") String questionId
 )
 {}
